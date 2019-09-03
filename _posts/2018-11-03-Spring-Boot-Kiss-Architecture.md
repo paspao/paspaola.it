@@ -1,15 +1,14 @@
 ---
 layout: single
 classes: wide
-title:  "Kiss architecture"
+title:  "A 'Kiss architecture': Springboot + Angular"
+description: In my experience, I worked on various types of technologies, having the opportunity to inspect the source code and, in general, the development of an application both from the client side (which can be a SPA or a native App) and from server side. By relying on such experience, I tried to develop a simple architecture that involves the respect of fundamental **PATTERN** in a **CRUD** context. I will try to illustrate the foundations of this architecture, used as a starting point in all my projects.
 date:   2018-11-03 14:32:49 +0200
 excerpt_separator: <!--more-->
-header.image: /assets/images/Ska.png
+header:
+  teaser: /assets/images/Ska.png
+
 ---
-A "Kiss architecture": Springboot + Angular
-============================================
-
-
 
 Like suggested by wikipedia, KISS is an acronym for "Keep it simple, stupid" as a design principle noted by the U.S. Navy in 1960. The KISS principle states that most systems work best if they are kept simple rather than made complicated; therefore simplicity should be a key goal in design, and that unnecessary complexity should be avoided. The phrase has been associated with aircraft engineer Kelly Johnson.
 
