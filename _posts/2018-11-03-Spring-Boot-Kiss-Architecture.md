@@ -4,8 +4,7 @@ classes: wide
 title:  "Kiss architecture"
 date:   2018-11-03 14:32:49 +0200
 excerpt_separator: <!--more-->
-#header: 
-# image: /assets/images/Ska.png
+header.image: /assets/images/Ska.png
 ---
 A "Kiss architecture": Springboot + Angular
 ============================================
