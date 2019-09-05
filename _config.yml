@@ -40,6 +40,7 @@ kramdown:
 
 #theme: minima
 theme: minimal-mistakes-jekyll
+logo: /assets/images/logo.png
 plugins:
   - jekyll-feed
   - jekyll-include-cache
@@ -136,4 +137,5 @@ exclude:
   - README.md
   - LICENSE
   - Gemfile*
+  - iconaPP.psd
 include: ["_pages"]
