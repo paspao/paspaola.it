@@ -133,6 +133,12 @@ paginate_path: /page:num/
 encoding: "utf-8"
 markdown_ext: "markdown,mkdown,mkdn,mkd,md"
 
+analytics:
+  provider: "google-gtag"
+  google:
+    tracking_id: "UA-33059018-1"
+    anonymize_ip: false # default
+
 exclude:
   - README.md
   - LICENSE
