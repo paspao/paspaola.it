@@ -12,13 +12,13 @@ tags: [docker, kafka]
 
 ---
 
-A lot of time I need an instance of Kafka for development purpose - if you develop services in a microservice architecture you know my problem! - but the lastest version of Kafka needed an instance of Zookeeper to start, this is very frustrating, you need a docker-compose only to make a test.
+In many situations, I need an instance of Kafka for development purpose - if you develop services in a microservice architecture you know my problem! - but the lastest version of Kafka needs an instance of Zookeeper to start, this is very frustrating, you need a docker-compose only to make a test.
 
-In most cases you don't need a cluster to test your work, so I have created a docker image containing Zookeeper and Kafka together, the container starts an instance of **supervisor** that manage the processes life.
+In most cases you don't need a cluster to test your work, so I have created a docker image containing Zookeeper and Kafka together, the container starts one instance of **supervisor** that manage the processes life.
 
 I show you how step-by-step:
 
-In first place I download a stable version of Kafka from [https://kafka.apache.org/](https://kafka.apache.org/), then I write this Dockerfile:
+Download a stable version of Kafka from [https://kafka.apache.org/](https://kafka.apache.org/), then:
 
 ```docker
 FROM adoptopenjdk/openjdk11-openj9
@@ -31,7 +31,7 @@ CMD ["/usr/bin/supervisord","-c","/etc/supervisor/conf.d/supervisord.conf"]
 
 * In the first line I choosed *adoptopenjdk* as base image because it is debian based (I want use *apt*) and it has a valid openjdk already installed
 * An *apt update* it's needed to syncronyze the package manager repositories
-* Then I install supervisor, I add a copy of Kafka as is and I copy the following *supervisor.conf* file
+* Then install supervisor and add a copy of Kafka as is and copy the following *supervisor.conf* file
 
 ```sh
 [supervisord]
@@ -53,6 +53,7 @@ command=/kafka_2.12-2.3.0/bin/kafka-server-start.sh /kafka_2.12-2.3.0/config/ser
 stdout_logfile=/dev/fd/1
 stdout_logfile_maxbytes=0
 redirect_stderr=true
+starters=5
 
 [program:topicOrderService]
 user=root
@@ -87,6 +88,7 @@ stdout_logfile_maxbytes=0
 redirect_stderr=true
 command=/kafka_2.12-2.3.0/bin/kafka-topics.sh --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic deliveryservice
 
-
-
 ```
+
+Supervisor starts Zookeeper and it waits 5 seconds, then it starts Kafka and 5 commands to generate some topic. That's all, the container is now running with a valid instance of Zookeeper and Kafka, you can bind the standard ports to interact with Kafka and Zookeeper
+
