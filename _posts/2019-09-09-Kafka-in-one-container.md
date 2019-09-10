@@ -61,7 +61,7 @@ directory=/
 stdout_logfile=/dev/fd/1
 stdout_logfile_maxbytes=0
 redirect_stderr=true
-command=/kafka_2.12-2.3.0/bin/kafka-topics.sh --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic orderservice
+command=/kafka_2.12-2.3.0/bin/kafka-topics.sh --create --zookeper localhost:2181 --replication-factor 1 --partitions 1 --topic orderservice
 
 
 [program:topicOrderHistoryService]
@@ -70,7 +70,7 @@ directory=/
 stdout_logfile=/dev/fd/1
 stdout_logfile_maxbytes=0
 redirect_stderr=true
-command=/kafka_2.12-2.3.0/bin/kafka-topics.sh --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic orderhistoryservice
+command=/kafka_2.12-2.3.0/bin/kafka-topics.sh --create --zookeper localhost:2181 --replication-factor 1 --partitions 1 --topic orderhistoryservice
 
 [program:topicKitchenService]
 user=root
@@ -78,7 +78,7 @@ directory=/
 stdout_logfile=/dev/fd/1
 stdout_logfile_maxbytes=0
 redirect_stderr=true
-command=/kafka_2.12-2.3.0/bin/kafka-topics.sh --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic kitchenservice
+command=/kafka_2.12-2.3.0/bin/kafka-topics.sh --create --zookeper localhost:2181 --replication-factor 1 --partitions 1 --topic kitchenservice
 
 [program:topicDeliveryService]
 user=root
@@ -86,9 +86,23 @@ directory=/
 stdout_logfile=/dev/fd/1
 stdout_logfile_maxbytes=0
 redirect_stderr=true
-command=/kafka_2.12-2.3.0/bin/kafka-topics.sh --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic deliveryservice
+command=/kafka_2.12-2.3.0/bin/kafka-topics.sh --create --zookeper localhost:2181 --replication-factor 1 --partitions 1 --topic deliveryservice
 
 ```
 
-Supervisor starts Zookeeper and it waits 5 seconds, then it starts Kafka and 5 commands to generate some topic. That's all, the container is now running with a valid instance of Zookeeper and Kafka, you can bind the standard ports to interact with Kafka and Zookeeper
+Supervisor starts Zookeeper and it waits 5 seconds, then it starts Kafka broker. 
+After 5 seconds it launchs 4 commands to generate some topic. That's all, the container is now running with a valid instance of Zookeeper and Kafka, you can bind the standard ports to interact with Kafka and Zookeeper.
 
+Build
+-----
+
+```bash
+docker build -t paspaola/kafka-mcpaspao:0.0.1 .
+```
+
+Run
+---
+
+```bash
+docker run -it -p2181:2181 -p9092:9092 paspaola/kafka-mcpaspao:0.0.1
+```
