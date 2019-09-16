@@ -5,8 +5,8 @@ title:  "Zuul API Gateway with Spring Session (Redis): Authenticate and Route in
 description: 
 date:   2019-06-28 14:32:49 +0200
 excerpt_separator: <!--more-->
-#header:
-#  teaser: /assets/images/Ska.png
+
+tags: [zuul, spring,spring boot,java,mellon,saml]
 
 ---
 My APIGateway (Zuul) is proxied by Apache Httpd and protected by [Mellon module][1] (SAML 2.0). After a successfully authentication on the identity provider, mellon module inject correctly some headers read into the SAML response, but the first request fails with a 403 status code. 
