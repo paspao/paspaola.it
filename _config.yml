@@ -82,7 +82,8 @@ defaults:
     values:
       layout: single
 
-
+twitter:
+  username: paspaola
 
 author:
   name: "Pasquale Paola"
