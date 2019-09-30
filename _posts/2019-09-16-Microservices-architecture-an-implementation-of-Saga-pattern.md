@@ -296,6 +296,7 @@ plugins:
         headers:
           - x-forwarded-prefix:/delivery-service
 ```
+In this example I'm using the API Gateway in the simplest way, without any Authentication and Authorization service or Service replica or Service Discovery, etc. to avoid confusing on the main aspect: the implementation of *Choreography Saga pattern*.
 
 To build the project, you can use *maven* and then start manually every service, or you can build everything with the multistage Dockerfile (you have to enable the *experimental features* on Docker 19.x):
 
