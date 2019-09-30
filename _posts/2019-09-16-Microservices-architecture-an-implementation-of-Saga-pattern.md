@@ -1,7 +1,7 @@
 ---
 layout: single
 classes: wide
-title:  "Microservices architecture: an implementation of Saga pattern (DRAFT)"
+title:  "Microservices architecture: an implementation of Saga pattern"
 description: An implementation of Saga pattern and an Hexagonal architecure.
 date:   2019-09-25 16:44:00 +0200
 excerpt_separator: <!--more-->
