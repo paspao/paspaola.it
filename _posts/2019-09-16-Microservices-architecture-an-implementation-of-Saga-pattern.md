@@ -15,23 +15,24 @@ tags: [docker, kafka, spring, springboot, saga, choreography, microservices, hex
 {% include image.html url="/assets/images/ketan-rajput-n-g7dgwNZg4-unsplash.jpg" description="Ketan Rajput" href="https://unsplash.com/photos/n-g7dgwNZg4" %}
 
 
-In the last years the microservices is one of the hot topic right now in the industry, also in a context where it is not needed. Often, the design of the architecture is wrong, probably it's more like a micro-monolith service. <!--more-->If you answer "Yes" to one of these basic questions, your architecture is wrong, probably :-D
+In the last years the microservices is one of the hot topic right now in the industry, also in a context where it is not needed. Often, the architecture design is wrong, probably it's more like a micro-monolith service. <!--more-->If you answer "Yes" to one of these basic questions, your architecture is wrong, probably :-D
 
 * Have you a single instance of your service?
 * Have you a single database (or schema)?
 * Is the communication between services syncronous?
 * ...
 
-There are a lot of questions to answer, but in this post I'll show you a simple microservices architecture comply with pattern, based on the book reading of "*Microservices Patterns*" by **Chris Richardson**.
+There are a lot of questions to answer, but in this post I'll show you a simple microservices architecture comply with pattern, based on the book "*Microservices Patterns*" by **Chris Richardson**.
 
-The main idea is to build a management software for "McPaspao", my hypothetical fast food :-D. Following, a preliminary domain based analysis:
+The main idea,in my example, is to build a management software for "McPaspao", my hypothetical fast food :-D. Following, a preliminary domain based analysis:
 
 * Orders Mangement
 * Kitchen Management
 * Delivery Management
 
-The *Orders Management* manages the hamburger order, the *Kitchen Mangement* manages the kitchen like cooking hamburger and the fridge management, the *Delivery Management* manages the deliveries of the hamburgers.
-So I need three different services at least, each one with it's own database, then each service needs to communicate with each others. So I can add other 5 components:
+The *Orders Management* manages the hamburger order, the *Kitchen Mangement* manages the kitchen job (eg: cooking hamburger or the fridge management), the *Delivery Management* manages the deliveries of the hamburgers.
+So I need three different services at least, each one with it's own database, then each service needs to communicate with each others. 
+In this scenario other five components are needed:
 
 * Orders Database
 * Kitchen Database
@@ -41,8 +42,8 @@ So I need three different services at least, each one with it's own database, th
 
 In the microservices architecture API Gateway, Messaging Service and Database per Service are common patterns used to solve a lot of problems, for example:
 
-* **Messaging Service**: Services often collaborate to handle those requests so, they must use an inter-process communication protocol. More specifically an asynchronous messaging system for inter-service communication.
-* **Database per Service**: The service's database is part of the implementation to ensure loosly coupling so that it can be developed, deployed and scaled indipendently.
+* **Messaging Service**: Services often collaborate to handle many requests so, they must use an inter-process communication protocol. More specifically an asynchronous messaging system.
+* **Database per Service**: The service's database must be part of the implementation to ensure loosly coupling so that it can be developed, deployed and scaled indipendently.
 * **API Gateway**:  In a microservices architecture there are a lot fo services, protocols, addresses, ports, security policies, redundancy policies, etc the API Gateway pattern tries to solve this problem, it gives to the clients a single entry point managing all the listed aspects and more.
 
 ![Architecture](/assets/images/McPaspaoArchitecure.png)
@@ -50,7 +51,7 @@ In the microservices architecture API Gateway, Messaging Service and Database pe
 This is the big picture of the architecture, the *API Gateway* is [Kong](https://konghq.com/kong), the *Messaging Service* [Kafka](https://kafka.apache.org/) and the *Database per Service* [MongoDB](https://www.mongodb.com/).
 The project is [here](https://github.com/paspao/McPaspaoTakeAway) on Github.
 
-Each Microservice is implemented following the *Hexagonal* architecture style: the core logic is embedded inside a hexagon, and the edges of the hexagon are considered the input and output. The aim is layering the objects in a way that isolates your core logic from outside elements: the core logic is at the center of the picture and all the other elements are considered like integration points (DB, API, Messaging). We talk of *inbound adapters* that handle requests from the outside by invoking the business logic and of *outbound adapters* that are invoked by the business logic (inboking external applications). A *port* defines a set of operations and is how the business logic interacts with what's outside of it.
+Each Microservice is implemented following the *Hexagonal* architecture style: the core logic is embedded inside a hexagon, and the edges of the hexagon are considered the input and output. The aim is to layer the objects in a way that isolates your core logic from outside elements: the core logic is at the center of the picture and all the other elements are considered as integration points (DB, API, Messaging). We talk about *inbound adapters* that handle requests from the outside by invoking the business logic and about *outbound adapters* that are invoked by the business logic (to invoke external applications). A *port* defines a set of operations that is how the business logic interacts with what's outside of it.
 
 ![Hexagonal](/assets/images/Heaxagonal.png)
 
@@ -152,7 +153,7 @@ Well, a simple use case that involve every microservice is the *order management
 >
 > <cite>Chris Richardson</cite>
 
-To see the entire architecture, I use the docker-compose.yml listed below:
+To see the entire architecture, I use the docker-compose.yml (docker app) listed below:
 
 ```yml
 version: '3.2'
@@ -319,7 +320,7 @@ You can verify that every microservice is runnig, using the Swagger user interfa
 * Kitchen Services *http://localhost:8000/order-service/swagger-ui.html*
 * Delivery Services *http://localhost:8000/delivery-service/swagger-ui.html*
 
-**Now I want an hamburger!!!** The kithcen needs some hamburgers, the fridge is empty, so:
+**Now I want an hamburger!!!** The kithcen needs some hamburgers, the fridge is empty, so (you have to install [jq](https://stedolan.github.io/jq/)):
 
 ```bash    
 curl -X POST "http://localhost:8000/kitchen-service/kitchen/add?hamburgerType=KOBE&quantity=2" -H "accept: application/json"|jq -C && \
@@ -348,7 +349,9 @@ printf "\n--END--\n"
 ```
 
 
-In the first step the order goes in *WAITING* status, then *COOKING*, *PACKAGING* and *DELIVERED* status. If you run again the script, the system doesn't have enough hamburgers and the nee order will in status *WAITING* and then "ABORTED".
+In the first step the order goes in *WAITING* status, then *COOKING*, *PACKAGING* and *DELIVERED* status. If you run again the script, the system doesn't have enough hamburgers and the next order will be in status *WAITING* and then *ABORTED*.
+
+I hope this guide will help you to clarify the power and the complexity of a microservice architecture, this is only a pratical example implemented using simple and basic components, but you can guess when use or not it. Thank you for reading.
 
 
 
