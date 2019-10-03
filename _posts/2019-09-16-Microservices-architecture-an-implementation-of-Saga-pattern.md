@@ -301,16 +301,16 @@ In this example I'm using the API Gateway in the simplest way, without any Authe
 To build the project, you can use *maven* and then start manually every service, or you can build everything with the multistage Dockerfile (you have to enable the *experimental features* on Docker 19.x):
 
 ```bash
-docker buildx build --target=order-service -t paspaola/order-service:0.0.1 . &&\
-docker buildx build --target=kitchen-service -t paspaola/kitchen-service:0.0.1 . &&\
-docker buildx build --target=delivery-service -t paspaola/delivery-service:0.0.1 . &&\
-docker buildx build --target=kong-mcpaspao -t paspaola/kong-mcpaspao:0.0.1 .
+docker buildx build --target=order-service -t paspaola/order-service:0.0.1 --load . &&\
+docker buildx build --target=kitchen-service -t paspaola/kitchen-service:0.0.1 --load . &&\
+docker buildx build --target=delivery-service -t paspaola/delivery-service:0.0.1 --load . &&\
+docker buildx build --target=kong-mcpaspao -t paspaola/kong-mcpaspao:0.0.1 --load .
 ```
 
 and then start with command:
 
 ```bash
-docker app render -s advertised.addr={your docker host ip} mcpaspao.dockerapp| docker-compose -f - up
+docker app render -s advertised.addr="your docker host ip" mcpaspao.dockerapp| docker-compose -f - up
 ```
 
 It's time to test!
