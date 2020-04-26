@@ -1,19 +1,22 @@
 ---
 layout: single
 classes: wide
-title:  "Openshift"
-description: An implementation of Saga pattern and an Hexagonal architecure.
+title:  "Build and deploy with Openshift"
+description: A simple pipeline with Openshift.
 date:   2019-09-16 16:44:00 +0200
 excerpt_separator: <!--more-->
 header:
-  teaser: /assets/images/ketan-rajput-n-g7dgwNZg4-unsplash.jpg
+  teaser: /assets/images/openshift.png
 
-tags: [docker, kafka, spring, springboot, saga, microservices]
+tags: [docker, openshift, jenkins, ci, cd]
 
 ---
 
+{% include image_width.html url="/assets/images/openshift.png" description="" width="600px" %}
 
-```Jenkinsfile
+
+
+```
 pipeline { 
     agent {
       label 'maven'
@@ -52,7 +55,7 @@ pipeline {
                 }
             }
             }
-}
+  }
     }
 	post {
         
@@ -81,9 +84,9 @@ pipeline {
 
 ```
 
-```
+```bash
 oc create imagestream $nomeImmagine:tag
-``
+```
 
 ```yml
 apiVersion: build.openshift.io/v1

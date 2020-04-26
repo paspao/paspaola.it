@@ -4,7 +4,7 @@ Jekyll repository of my blog [https://paspaola.it](https://paspaola.it)
 Run
 ---
 
-	bundle exec jekyll serve
+	bundle exec jekyll serve --draft
 
 Build
 -----
