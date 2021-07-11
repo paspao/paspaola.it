@@ -146,4 +146,5 @@ exclude:
   - LICENSE
   - Gemfile*
   - iconaPP.psd
+  - assets/tables* 
 include: ["_pages"]
