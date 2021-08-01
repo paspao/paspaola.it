@@ -8,7 +8,7 @@ excerpt_separator: <!--more-->
 header:
   teaser: /assets/images/quarkus_logo_kafka.png
 
-tags: [docker, kafka, quarkus, streaming]
+tags: [docker, kafka, quarkus, streaming, topology, join, peek, ETL, kafdrop]
 
 ---
 
@@ -325,4 +325,7 @@ The complete example is on Github at [https://github.com/paspao/quarkus-streamin
 * 1 Kafdrop instance (easy way to give a look inside the Kafka topic/instance etc)
 * 1 Streaming app (described in this article)
 
+Through Kafdrop you can verify the content the Kafka topics. The first topology described here is commented at line 142 of _it.paspaola.quarkus.streaming.StraminApp_ class, I have leaved active only the last one.  
 
+
+Thank you a lot for reading and let me know if something it's not so clear.
