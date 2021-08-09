@@ -1,8 +1,8 @@
 ---
 layout: single
 classes: wide
-title:  "A kafka streaming application with Quarkus (DRAFT)"
-description: A kafka streaming applicationt with Quarkus.
+title:  "A Kafka streaming application with Quarkus (DRAFT)"
+description: A Kafka streaming applicationt with Quarkus.
 date:   2021-05-21 18:43:00 +0200
 excerpt_separator: <!--more-->
 header:
@@ -19,7 +19,18 @@ The Kafka streaming application platform is becoming *"de facto"* the modern app
 The book *"Kafka streams in Action"* defines the stream processing as *"working with data as it’s arriving in your system"* or more refined *"stream processing is the ability to work with an infinite stream of data with continuous computation, as it flows, with no need to collect or store the data
 to act on it"*. Usually, we use a stream processing application when we have a lot of data (BigData) and the need to quickly respond to or report on incoming data.
 
-In this scenario all the data are already present inside Kafka topics, i tried to draw them in the below picture:
+Before continuing, the complete example described here, it's published on Github at [https://github.com/paspao/quarkus-streaming-app](https://github.com/paspao/quarkus-streaming-app), it doesn't contain the streaming app only, but a complete deployment scenarious:
+
+* 1 Zookeeper instance
+* 3 Kafka instances
+* 1 Kafdrop instance (easy way to give a look inside the Kafka topic/instance etc)
+* 1 Streaming app (described in this article)
+
+Through Kafdrop you can verify the content the Kafka topics. 
+
+***
+
+Now, let's suppose that all the data are already present inside Kafka topics, i tried to draw them in the below picture:
 {% include image_width.html url="/assets/images/allTogether.svg" description="" width="800px" %}
 So i have created four simple entities (each one is a Kafka topic rappresentation): Person, DriverLicense, Sim, Fee. The data architecure is pretty simple: a person could have some driver licenses, a person could have sim cards and last but not least a person pays the fees unfortunatly.
 I marked with red colour the _key_ of a topic and the entire row is the kafka message or the _payload_.
@@ -122,7 +133,7 @@ So, in the final step at line 18 the data will be joined by the key and the resu
    },
    "driverLicense": {
       "id": "789",
-      "type": "MOTORBIKE, CAR",
+      "type": "CAR",
       "licenseNumber": "4213245768"
    }
 }
@@ -193,7 +204,7 @@ public Topology appJoinPersonAndDriverLicenseAndFee() {
     }
 {% endhighlight %}
 
-At line 24 we defined a new stream for the _FEE_ topic, then at lines 27-32 we defined  something of new that is a _persistent KeyValue store_ used to store the data to be more rapidly accessible, more in detail at line 27 we asked the creation of a RocksDB instance (a file based DB) then at lines 29-32 we defined what to store inside this RocksDB instance (we started to use it at line 41 only). Alternativly, you can use an in memory strategy.
+At line 24 we defined a new stream for the _FEE_ topic, then at lines 27-32 we defined  something of new that is a _persistent KeyValue store_ used to store the data to be more rapidly accessible, more in detail at line 27 we asked the creation of a RocksDB instance (a file based DB) then at lines 29-32 we defined what to store inside this RocksDB instance (we started to use it at line 41 only). Alternativly, you can use an in memory strategy, anyway I need to specify a serialization configuration, made at line 32.
 
 At line 34 we start to join _PersonDriverLicense_ topic with _Fee_ topic:
 
@@ -318,14 +329,5 @@ I highlighted with the red line the first topology analyzed in the first section
 }
 {% endhighlight %}
 
-The complete example is on Github at [https://github.com/paspao/quarkus-streaming-app](https://github.com/paspao/quarkus-streaming-app), it doesn't contain the streaming app only, but a complete deployment scenarious:
 
-* 1 Zookeeper instance
-* 3 Kafka instances
-* 1 Kafdrop instance (easy way to give a look inside the Kafka topic/instance etc)
-* 1 Streaming app (described in this article)
-
-Through Kafdrop you can verify the content the Kafka topics. The first topology described here is commented at line 142 of _it.paspaola.quarkus.streaming.StraminApp_ class, I have leaved active only the last one.  
-
-
-Thank you a lot for reading and let me know if something it's not so clear.
+Thank you a lot for reading and let me know if something it's not clear.
